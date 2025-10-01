@@ -1,19 +1,19 @@
 import z from "zod";
 
 export interface Requirement {
-  name: string;
+  name?: string;
   description: string;
-  budget: number;
-  timeline: string;
-  additionalInfo: string;
+  budget?: number;
+  timeline?: string;
+  additionalInfo?: string;
 }
 
 export const requirementSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  budget: z.number(),
-  timeline: z.string(),
-  additionalInfo: z.string(),
+  name: z.string().optional(),
+  description: z.string().min(10, "Description should be at least 10 characters"),
+  budget: z.number().optional(),
+  timeline: z.string().optional(),
+  additionalInfo: z.string().optional(),
 });
 
 export interface RequirementValidationResult {
