@@ -61,5 +61,6 @@ export const MilestonePlannerTool = new Agent({
     instructions,
     model: "gpt-4o-mini",
 }).asTool({
-    toolName: "MilestonePlannerTool"
+    toolName: "MilestonePlannerTool",
+    toolDescription: "Breaks down project requirements into a set of actionable milestones."
 });

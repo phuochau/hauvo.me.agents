@@ -53,5 +53,6 @@ export const TechStackAdvisorTool = new Agent({
     instructions,
     model: "gpt-4o-mini",
 }).asTool({
-    toolName: "TechStackAdvisorTool"
+    toolName: "TechStackAdvisorTool",
+    toolDescription: "Recommends appropriate technologies for the project based on requirements, budget, timeline, and complexity."
 });

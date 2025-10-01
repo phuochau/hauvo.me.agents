@@ -2,11 +2,9 @@ import { tool } from "@openai/agents";
 import z from "zod";
 import { requirementSchema, RequirementValidationResult } from "../../models/requirement";
 
-const instruction = `Evaluates requirement completeness and quality. Returns validation status and specific feedback for missing or unclear fields.`
-
 export const RequirementEvaluatorTool = tool({
   name: "RequirementEvaluatorTool",
-  description: instruction,
+  description: 'Evaluates requirement completeness and quality. Returns validation status and specific feedback for missing or unclear fields.',
   parameters: z.object({
     requirement: requirementSchema,
   }),

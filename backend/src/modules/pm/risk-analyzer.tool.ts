@@ -55,5 +55,6 @@ export const RiskAnalyzerTool = new Agent({
     instructions,
     model: "gpt-4o-mini",
 }).asTool({
-    toolName: "RiskAnalyzerTool"
+    toolName: "RiskAnalyzerTool",
+    toolDescription: "Identifies potential risks in the project plan and provides mitigation strategies."
 });
