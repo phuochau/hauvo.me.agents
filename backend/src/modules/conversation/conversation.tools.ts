@@ -8,8 +8,6 @@ export const AskNameTool = tool({
     name: z.string()
   }),
   execute: async (input) => {
-    // Implement conversation logic here
-    console.log(input)
     return {
       field: 'name',
       value: input.name,
