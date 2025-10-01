@@ -1,22 +1,7 @@
 import { run } from '@openai/agents';
 import { ConversationAgent } from '../src/modules/conversation/conversation.agent';
 
-/**
- * Test suite for ConversationAgent
- *
- * These tests will automatically generate traces that can be viewed in the OpenAI dashboard.
- * Tracing is enabled by default in the OpenAI Agents SDK.
- *
- * Environment variables are loaded automatically from .env file via jest.setup.ts
- *
- * To view traces:
- * 1. Run the tests with your OPENAI_API_KEY set in .env file
- * 2. Go to https://platform.openai.com/traces
- * 3. Look for traces with workflow name "ConversationAgent Test"
- */
-
 describe('ConversationAgent', () => {
-  // Ensure we have an API key for testing
   beforeAll(() => {
     if (!process.env.OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY environment variable is required for testing');
