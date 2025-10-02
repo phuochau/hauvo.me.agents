@@ -1,3 +1,5 @@
+
+
 # PROJECT CONSULT AGENT
 
 The idea that I would like to demo how we can design an agent by using OpenAI Agents SDK. We can do the same architecture by using LangGraph, CrewAI, AutoGen, etc
@@ -6,6 +8,14 @@ The idea that I would like to demo how we can design an agent by using OpenAI Ag
 - Configure OPENAI_API_KEY in .env file
 - Run `npm install`
 - Run `npm run console` to go to the interactive mode
+
+## Screenshots
+
+### Demo
+![Demo](screenshots/demo.png)
+
+### Trace
+![Trace](screenshots/trace.png)
 
 ## Sub-Agents and Tools
 - **ConsultantAgent**: Main orchestrator that routes requests and optimizes workflow
