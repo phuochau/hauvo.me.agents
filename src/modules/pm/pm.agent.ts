@@ -1,8 +1,8 @@
 import { Agent } from "@openai/agents";
-import { MilestonePlannerTool } from "./milestone-planner.tool";
-import { TechStackAdvisorTool } from "./techstack-advisor.tool";
-import { RiskAnalyzerTool } from "./risk-analyzer.tool";
 import { projectPlanSchema } from "../../models/project-plan";
+import { MilestonePlannerTool } from "./milestone-planner.tool";
+import { RiskAnalyzerTool } from "./risk-analyzer.tool";
+import { TechStackAdvisorTool } from "./techstack-advisor.tool";
 
 const instructions = `You are a project manager that creates comprehensive project plans.
 
@@ -24,11 +24,7 @@ export const PMAgent = new Agent({
     name: "PMAgent",
     instructions,
     outputType: projectPlanSchema,
-    tools: [
-        MilestonePlannerTool,
-        TechStackAdvisorTool,
-        RiskAnalyzerTool
-    ]
+    tools: [MilestonePlannerTool, RiskAnalyzerTool, TechStackAdvisorTool]
 }).asTool({
     toolName: "PMAgentTool",
     toolDescription: "Creates a comprehensive project plan based on the requirements."

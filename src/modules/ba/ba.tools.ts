@@ -1,12 +1,12 @@
 import { tool } from "@openai/agents";
 import z from "zod";
-import { requirementOutputSchema, RequirementValidationResult } from "../../models/requirement";
+import { requirementSchema, RequirementValidationResult } from "../../models/requirement";
 
 export const RequirementEvaluatorTool = tool({
   name: "RequirementEvaluatorTool",
   description: 'Evaluates requirement completeness and quality. Returns validation status and specific feedback for missing or unclear fields.',
   parameters: z.object({
-    requirement: requirementOutputSchema,
+    requirement: requirementSchema,
   }),
   execute: async (input): Promise<RequirementValidationResult> => {
     try {
@@ -19,9 +19,6 @@ export const RequirementEvaluatorTool = tool({
         missingFields.push("description");
         feedback.push("Please provide a brief description of what you want to build");
       }
-
-      console.log('Requirement:', requirement);
-      console.log('Missing Fields:', missingFields);
 
       const isComplete = missingFields.length === 0;
 

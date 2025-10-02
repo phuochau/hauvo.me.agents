@@ -4,6 +4,8 @@
  */
 
 import { Agent } from "@openai/agents";
+import z from "zod";
+import { projectRiskSchema } from "../../models/project-plan";
 
 const instructions = `You are a project risk management expert. Your goal is to identify potential risks in the project plan and provide mitigation strategies.
 
@@ -54,7 +56,10 @@ export const RiskAnalyzerTool = new Agent({
     name: "RiskAnalyzerAgent",
     instructions,
     model: "gpt-4o-mini",
+    outputType: z.object({
+        risks: z.array(projectRiskSchema)
+    })
 }).asTool({
     toolName: "RiskAnalyzerTool",
-    toolDescription: "Identifies potential risks in the project plan and provides mitigation strategies."
+    toolDescription: "Identifies potential risks in the project plan and provides mitigation strategies.",
 });

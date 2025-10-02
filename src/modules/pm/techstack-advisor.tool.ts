@@ -4,6 +4,8 @@
  */
 
 import { Agent } from "@openai/agents";
+import { projectTechStackSchema } from "../../models/project-plan";
+import z from "zod";
 
 const instructions = `You are a software architecture expert. Your goal is to recommend the appropriate technology stack for the project.
 
@@ -51,7 +53,10 @@ Return ONLY the JSON object, no additional text or explanation.`;
 export const TechStackAdvisorTool = new Agent({
     name: "TechStackAdvisorAgent",
     instructions,
-    model: "gpt-4o-mini"
+    model: "gpt-4o-mini",
+    outputType: z.object({
+        techStack: projectTechStackSchema
+    })
 }).asTool({
     toolName: "TechStackAdvisorTool",
     toolDescription: "Recommends appropriate technologies for the project based on requirements, budget, timeline, and complexity."

@@ -8,16 +8,10 @@ export interface Requirement {
   additionalInfo?: string;
 }
 
-export const requirementInputSchema = z.object({
-  name: z.string().optional(),
+export const requirementSchema = z.object({
   description: z.string().min(10, "Description should be at least 10 characters"),
-  budget: z.number().optional(),
-  timeline: z.string().optional(),
-  additionalInfo: z.string().optional(),
-});
-
-export const requirementOutputSchema = z.object({
-  description: z.string().min(10, "Description should be at least 10 characters"),
+  budget: z.number(),
+  timeline: z.string(),
 });
 
 export interface RequirementValidationResult {

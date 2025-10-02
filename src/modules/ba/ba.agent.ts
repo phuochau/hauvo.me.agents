@@ -1,6 +1,7 @@
 import { Agent, webSearchTool } from "@openai/agents";
-import { requirementOutputSchema } from "../../models/requirement";
+import { requirementSchema } from "../../models/requirement";
 import { RequirementEvaluatorTool } from "./ba.tools";
+import z from "zod";
 
 const instructions = `You are a Business Analyst (BA) that gathers project requirements.
 
@@ -26,7 +27,9 @@ export const BAAgent = new Agent({
   model: "gpt-4o-mini", // Fixed model name
   name: "BAAgent",
   instructions,
-  outputType: requirementOutputSchema,
+  outputType: z.object({
+    requirement: requirementSchema,
+  }),
   tools: [webSearchTool(), RequirementEvaluatorTool]
 }).asTool({
   toolName: "BAAgentTool",

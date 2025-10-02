@@ -3,6 +3,8 @@
  * It takes the high-level requirements and generates a phased plan with deliverables, durations, and dependencies.
  */
 import { Agent } from "@openai/agents";
+import z from "zod";
+import { projectMilestoneSchema } from "../../models/project-plan";
 
 const instructions = `You are a project manager. Your goal is to break down project requirements into a set of actionable milestones.
 
@@ -60,6 +62,9 @@ export const MilestonePlannerTool = new Agent({
     name: "MilestonePlannerAgent",
     instructions,
     model: "gpt-4o-mini",
+    outputType: z.object({
+        milestones: z.array(projectMilestoneSchema)
+    })
 }).asTool({
     toolName: "MilestonePlannerTool",
     toolDescription: "Breaks down project requirements into a set of actionable milestones."
