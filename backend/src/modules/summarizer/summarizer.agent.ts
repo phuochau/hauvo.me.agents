@@ -22,7 +22,7 @@ OUTPUT: Complete project brief with:
 `;
 
 export const SummarizerAgent = new Agent({
+    model: "gpt-4o-mini",
     name: "SummarizerAgent",
-    instructions,
-    model: "gpt-4o-mini"
+    instructions
 });

@@ -2,6 +2,7 @@ import { Agent } from "@openai/agents";
 import { MilestonePlannerTool } from "./milestone-planner.tool";
 import { TechStackAdvisorTool } from "./techstack-advisor.tool";
 import { RiskAnalyzerTool } from "./risk-analyzer.tool";
+import { projectPlanSchema } from "../../models/project-plan";
 
 const instructions = `You are a project manager that creates comprehensive project plans.
 
@@ -19,14 +20,15 @@ OUTPUT FORMAT: Return structured JSON with:
 
 
 export const PMAgent = new Agent({
+    model: "gpt-4o-mini",
     name: "PMAgent",
     instructions,
+    outputType: projectPlanSchema,
     tools: [
         MilestonePlannerTool,
         TechStackAdvisorTool,
         RiskAnalyzerTool
-    ],
-    model: "gpt-4o-mini"
+    ]
 }).asTool({
     toolName: "PMAgentTool",
     toolDescription: "Creates a comprehensive project plan based on the requirements."

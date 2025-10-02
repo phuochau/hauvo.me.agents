@@ -1,4 +1,6 @@
 import { Agent } from "@openai/agents";
+import { requirementSchema } from "../../models/requirement";
+import { RequirementEvaluatorTool } from "./ba.tools";
 
 const instructions = `You are a Business Analyst (BA) that gathers project requirements.
 
@@ -20,9 +22,11 @@ CONVERSATION STYLE:
 `;
 
 export const BAAgent = new Agent({
+  model: "gpt-4o-mini",
   name: "BAAgent",
   instructions,
-  model: "gpt-4o-mini"
+  outputType: requirementSchema,
+  tools: [RequirementEvaluatorTool]
 }).asTool({
   toolName: "BAAgentTool",
   toolDescription: "Gathers project requirements and hands off to the appropriate agent for further processing."

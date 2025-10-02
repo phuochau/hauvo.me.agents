@@ -9,11 +9,11 @@ export interface Requirement {
 }
 
 export const requirementSchema = z.object({
-  name: z.string().optional(),
+  name: z.string(),
   description: z.string().min(10, "Description should be at least 10 characters"),
-  budget: z.number().optional(),
-  timeline: z.string().optional(),
-  additionalInfo: z.string().optional(),
+  budget: z.number(),
+  timeline: z.string(),
+  additionalInfo: z.string(),
 });
 
 export interface RequirementValidationResult {
