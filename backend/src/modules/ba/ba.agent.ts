@@ -29,5 +29,6 @@ export const BAAgent = new Agent({
   tools: [RequirementEvaluatorTool]
 }).asTool({
   toolName: "BAAgentTool",
-  toolDescription: "Gathers project requirements and hands off to the appropriate agent for further processing."
+  toolDescription: "Gathers project requirements and hands off to the appropriate agent for further processing.",
+  needsApproval: true
 });
