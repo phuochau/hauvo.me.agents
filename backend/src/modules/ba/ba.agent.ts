@@ -1,4 +1,4 @@
-import { Agent } from "@openai/agents";
+import { Agent, webSearchTool } from "@openai/agents";
 import { requirementOutputSchema } from "../../models/requirement";
 import { RequirementEvaluatorTool } from "./ba.tools";
 
@@ -27,7 +27,7 @@ export const BAAgent = new Agent({
   name: "BAAgent",
   instructions,
   outputType: requirementOutputSchema,
-  tools: [RequirementEvaluatorTool]
+  tools: [webSearchTool(), RequirementEvaluatorTool]
 }).asTool({
   toolName: "BAAgentTool",
   toolDescription: "Gathers project requirements and hands off to the appropriate agent for further processing."

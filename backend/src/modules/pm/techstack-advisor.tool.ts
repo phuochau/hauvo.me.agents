@@ -51,7 +51,7 @@ Return ONLY the JSON object, no additional text or explanation.`;
 export const TechStackAdvisorTool = new Agent({
     name: "TechStackAdvisorAgent",
     instructions,
-    model: "gpt-4o-mini",
+    model: "gpt-4o-mini"
 }).asTool({
     toolName: "TechStackAdvisorTool",
     toolDescription: "Recommends appropriate technologies for the project based on requirements, budget, timeline, and complexity."
