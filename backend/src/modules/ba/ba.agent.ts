@@ -21,7 +21,7 @@ CONVERSATION STYLE:
 - Focus on understanding WHAT they want to build
 `;
 
-export const BAAgent = new Agent({
+export const BAAgentTool = new Agent({
   model: "gpt-4o-mini",
   name: "BAAgent",
   instructions,

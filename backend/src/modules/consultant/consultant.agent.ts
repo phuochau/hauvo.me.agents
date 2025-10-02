@@ -1,23 +1,26 @@
 import { Agent } from "@openai/agents";
-import { PMAgent } from "../pm/pm.agent";
-import { BAAgent } from "../ba/ba.agent";
+import { PMAgentTool } from "../pm/pm.agent";
+import { BAAgentTool } from "../ba/ba.agent";
 import { SummarizerAgent } from "../summarizer/summarizer.agent";
 
-const instructions = `You are a project plan evaluator that validates alignment between requirements and project plans.
+const instructions = `You're a project consultant.
 
-WORKFLOW:
-1. Receive project requirements from BAAgent
-2. Validate alignment on budget, timeline, scope, technical soundness
-3. Make decision:
-   - APPROVED → Hand off to SummarizerAgent
-   - REVISION NEEDED → Uses PMAgentTool with feedback for revision
-   - REQUIREMENT CLARIFICATION NEEDED → Uses BAAgentTool to clarify requirements
+GOAL: Help users with their project requests.
+
+PROCESS:
+1. Receive requirements from user
+2. Brainstorming requirements to make it more clear and detailed.
+3. Confirm the requirements with the user.
+4. Revise the requirements if needed.
+5. Decide which agent to use based on the request
+6. Hand off to the appropriate agent
+7. Return the result to the user
 `;
 
 export const ConsultantAgent = new Agent({
     name: "ConsultantAgent",
     instructions,
     model: "gpt-4o-mini",
-    tools: [BAAgent, PMAgent],
+    tools: [BAAgentTool, PMAgentTool],
     handoffs: [SummarizerAgent]
 });

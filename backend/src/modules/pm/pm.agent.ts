@@ -13,13 +13,10 @@ WORKFLOW:
    - TechStackAdvisorTool for technology recommendations
    - RiskAnalyzerTool for risk assessment
 3. Generate cost estimates and timeline
-
-OUTPUT FORMAT: Return structured JSON with:
-- milestones, techStack, risks, estimatedCost, timeline
 `;
 
 
-export const PMAgent = new Agent({
+export const PMAgentTool = new Agent({
     model: "gpt-4o-mini",
     name: "PMAgent",
     instructions,
@@ -31,5 +28,6 @@ export const PMAgent = new Agent({
     ]
 }).asTool({
     toolName: "PMAgentTool",
-    toolDescription: "Creates a comprehensive project plan based on the requirements."
+    toolDescription: "Creates a comprehensive project plan based on the requirements.",
+    needsApproval: true
 });
