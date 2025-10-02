@@ -13,10 +13,13 @@ WORKFLOW:
    - TechStackAdvisorTool for technology recommendations
    - RiskAnalyzerTool for risk assessment
 3. Generate cost estimates and timeline
-`;
 
+IMPORTANT: 
+- If any tool fails, continue with available information
+- Provide reasonable defaults for missing data
+- Focus on delivering a usable plan rather than perfect completeness`;
 
-export const PMAgentTool = new Agent({
+export const PMAgent = new Agent({
     model: "gpt-4o-mini",
     name: "PMAgent",
     instructions,
@@ -28,6 +31,5 @@ export const PMAgentTool = new Agent({
     ]
 }).asTool({
     toolName: "PMAgentTool",
-    toolDescription: "Creates a comprehensive project plan based on the requirements.",
-    needsApproval: true
+    toolDescription: "Creates a comprehensive project plan based on the requirements."
 });

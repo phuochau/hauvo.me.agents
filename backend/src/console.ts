@@ -48,6 +48,16 @@ function printAgentResponse(response: any) {
     console.log('\n');
 }
 
+// Add timeout wrapper for agent execution
+async function runWithTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+    return Promise.race([
+        promise,
+        new Promise<T>((_, reject) => 
+            setTimeout(() => reject(new Error(`Operation timed out after ${timeoutMs}ms`)), timeoutMs)
+        )
+    ]);
+}
+
 // Interactive mode
 async function interactiveMode() {
     printHeader('🤖 AI Agent Console - Interactive Mode');
@@ -113,10 +123,21 @@ async function interactiveMode() {
         try {
             print('\n⏳ Processing your request...\n', colors.yellow);
 
-            // Run the agent with tracing
-            const result = await withTrace("ProjectConsultant", () => {
-                return run(ConsultantAgent, trimmedInput);
-            });
+            // Build conversation context
+            let conversationContext = trimmedInput;
+            
+            if (conversationHistory.length > 1) {
+                const previousMessages = conversationHistory.slice(0, -1);
+                conversationContext = `Conversation History:\n${previousMessages.join('\n')}\n\nCurrent User Input: ${trimmedInput}`;
+            }
+
+            // Run the agent with timeout and tracing
+            const result = await runWithTimeout(
+                withTrace("ProjectConsultant", () => {
+                    return run(ConsultantAgent, conversationContext);
+                }),
+                180000 // 3 minutes total timeout
+            );
 
             // Display the response
             if (result && result.finalOutput) {
@@ -127,9 +148,14 @@ async function interactiveMode() {
             }
 
         } catch (error: any) {
-            print(`\n❌ Error: ${error.message}`, colors.red);
-            if (error.stack) {
-                print(`\nStack trace:\n${error.stack}`, colors.dim);
+            if (error.message.includes('timed out')) {
+                print(`\n⏰ Request timed out. The agent may be taking too long to process.`, colors.red);
+                print('Try breaking your request into smaller parts or check your internet connection.', colors.yellow);
+            } else {
+                print(`\n❌ Error: ${error.message}`, colors.red);
+                if (error.stack) {
+                    print(`\nStack trace:\n${error.stack}`, colors.dim);
+                }
             }
         }
 
@@ -152,9 +178,12 @@ async function quickTestMode() {
     try {
         print('⏳ Processing...\n', colors.yellow);
 
-        const result = await withTrace("ProjectConsultant", () => {
-            return run(ConsultantAgent, testMessage);
-        });
+        const result = await runWithTimeout(
+            withTrace("ProjectConsultant", () => {
+                return run(ConsultantAgent, testMessage);
+            }),
+            120000 // 2 minutes for quick test
+        );
 
         if (result && result.finalOutput) {
             printAgentResponse(result.finalOutput);
@@ -164,9 +193,13 @@ async function quickTestMode() {
 
         print('✅ Test completed successfully!', colors.green);
     } catch (error: any) {
-        print(`\n❌ Error: ${error.message}`, colors.red);
-        if (error.stack) {
-            print(`\nStack trace:\n${error.stack}`, colors.dim);
+        if (error.message.includes('timed out')) {
+            print(`\n⏰ Test timed out. This may indicate performance issues.`, colors.red);
+        } else {
+            print(`\n❌ Error: ${error.message}`, colors.red);
+            if (error.stack) {
+                print(`\nStack trace:\n${error.stack}`, colors.dim);
+            }
         }
         process.exit(1);
     }

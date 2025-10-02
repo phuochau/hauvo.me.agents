@@ -1,5 +1,5 @@
 import { Agent } from "@openai/agents";
-import { requirementSchema } from "../../models/requirement";
+import { requirementOutputSchema } from "../../models/requirement";
 import { RequirementEvaluatorTool } from "./ba.tools";
 
 const instructions = `You are a Business Analyst (BA) that gathers project requirements.
@@ -19,16 +19,16 @@ CONVERSATION STYLE:
 - Be friendly and conversational
 - Don't push too hard for optional information
 - Focus on understanding WHAT they want to build
-`;
 
-export const BAAgentTool = new Agent({
-  model: "gpt-4o-mini",
+IMPORTANT: If you can't gather complete requirements in one interaction, return what you have and let the user provide more details.`;
+
+export const BAAgent = new Agent({
+  model: "gpt-4o-mini", // Fixed model name
   name: "BAAgent",
   instructions,
-  outputType: requirementSchema,
+  outputType: requirementOutputSchema,
   tools: [RequirementEvaluatorTool]
 }).asTool({
   toolName: "BAAgentTool",
-  toolDescription: "Gathers project requirements and hands off to the appropriate agent for further processing.",
-  needsApproval: true
+  toolDescription: "Gathers project requirements and hands off to the appropriate agent for further processing."
 });
